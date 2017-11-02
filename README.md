@@ -54,6 +54,6 @@ If you haven't got to play it yet, try running the `play_game.py` file. This wil
 ### Create a new CartPole Policy
 If you want to try your hand at creating a new policy for the CartPole, please take a look at `my_new_policy.py`. It is an example file that shows you how to create your own policy function, and then analyze it's performance. For example, `my_new_policy.py` creates two policies: a basic policy and a bad policy. After it uses the PolicyAnalyzer class to check the performance, the following bar graph is rendered to the screen:
 
-![alt text](https://github.com/mtfuller/CS4242-project/raw/master/img/my_new_policy_graph.png "Logo Title Text 1")
+![alt text](https://github.com/mtfuller/CS4242-project/raw/master/img/my_new_policy_graph.png "my_new_policy.py Graph")
 
 You can see how much better the basic policy is than the bad policy. For more information, please see the well commented code in `my_new_policy.py`.
