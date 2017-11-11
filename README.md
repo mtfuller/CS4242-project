@@ -3,8 +3,8 @@
 Our team seeks to develop a AI agent that is able to play a simple game. We plan to develop and train a learning model that will perform actions that help it to win the game. To accomplish this project, we plan to utilize libraries such as TensorFlow and OpenAI’s Gym in order to implement a way to train the agent to play the game proficiently.
 ## Milestones
  - [x] Decide on what game use for project. (CartPole)
- - [ ] As a team, create different policies and see how they do.
- - [ ] Create and train a learning model to play the game.
+ - [X] As a team, create different policies and see how they do.
+ - [X] Create and train a learning model to play the game.
  - [ ] Fine tune the model and optimize performance.
  - [ ] Compare our initial policies with the learned model.
  - [ ] Discuss what we have learned.
