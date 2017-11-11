@@ -7,7 +7,10 @@ import gym
 # Uses matplotlib to render bar chart
 import matplotlib.pyplot as plt
 
-# Uses numpy for some statistic calculations
+# Uses stats module for some statistic calculations
+from lib.stats import calculate_stats
+
+# Uses numpy for a bit of math in the run() method
 import numpy as np
 
 class Policy:
@@ -57,12 +60,7 @@ class Policy:
 
     def analyze(self):
         """Calculates statistics for the current list of scores."""
-        self.stats = (
-            np.mean(self.scores),
-            np.std(self.scores),
-            np.min(self.scores),
-            np.max(self.scores)
-        )
+        self.stats = calculate_stats(self.scores)
 
     def __str__(self):
         """Returns a string that contains the policy performance statistics."""
@@ -129,14 +127,15 @@ class PolicyAnalyzer:
         # Initialize some default values for the matplotlib Bar Graph
         fig, ax = plt.subplots()
         index = np.arange(4)
-        bar_width = 0.35
+        n = len(self.policies) if len(self.policies) > 0 else 1
+        bar_width = 0.35 / n
         bars = 0
 
         # Go through each registered policy
         for policy_name in self.policies:
             policy = self.policies[policy_name]
 
-            env = gym.make("CartPole-v0")
+            env = gym.make("CartPole-v1")
 
             # Run the environment for the given number of episodes and steps
             for episode in range(self.episodes):

@@ -2,7 +2,29 @@
 This file shows how to create your own policy for the CartPole game.
 """
 # Import the policy analyzer class that is used to
-from PolicyAnalyzer import PolicyAnalyzer
+from lib.PolicyAnalyzer import PolicyAnalyzer
+from keras.models import Sequential
+from keras.layers import Dense
+from keras.optimizers import Adam
+
+import numpy as np
+
+model = Sequential()
+model.add(Dense(24, input_dim=4, activation='relu'))
+model.add(Dense(24, activation='relu'))
+model.add(Dense(2, activation='linear'))
+model.compile(loss='mse',
+              optimizer=Adam(lr=0.001))
+model.load_weights('./saves/cartpole-dqn.h5')
+
+model2 = Sequential()
+model2.add(Dense(24, input_dim=4, activation='relu'))
+model2.add(Dense(24, activation='relu'))
+model2.add(Dense(24, activation='relu'))
+model2.add(Dense(2, activation='linear'))
+model2.compile(loss='mse',
+              optimizer=Adam(lr=0.001))
+model2.load_weights('./saves/cartpole-dqn-batch-percent.h5')
 
 # To create a new policy for the agent, you must implement a function that can
 # use several observations about the environment and return an action.
@@ -36,6 +58,16 @@ def bad_policy(pos, vel, angle, angular_vel):
     # go left.
     return 0
 
+def dql_policy(pos, vel, angle, angular_vel):
+    state = np.reshape([pos, vel, angle, angular_vel], [1, 4])
+    action_vals = model.predict(state)
+    return np.argmax(action_vals[0])
+
+def dql2_policy(pos, vel, angle, angular_vel):
+    state = np.reshape([pos, vel, angle, angular_vel], [1, 4])
+    action_vals = model2.predict(state)
+    return np.argmax(action_vals[0])
+
 if __name__ == '__main__':
     # If we want to see the policy's performance, we can use a PolicyAnalyzer
     # object that will run a certain number of CartPole games for a certain
@@ -45,6 +77,8 @@ if __name__ == '__main__':
     # Simply add your policy and give it a name
     analyzer.register_policy("My Basic Policy", basic_policy)
     analyzer.register_policy("My Bad Policy", bad_policy)
+    analyzer.register_policy("DQL Policy", dql_policy)
+    analyzer.register_policy("New DQL Policy", dql2_policy)
 
     # Run the policy analyzer and get stats on how your policy did.
     analyzer.run()

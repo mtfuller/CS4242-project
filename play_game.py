@@ -19,7 +19,7 @@ import numpy as np
 FPS = 10
 
 # Creates a new gym CartPole environment
-env = gym.make('CartPole-v0')
+env = gym.make('CartPole-v1')
 observation = env.reset()
 firstframe = env.render(mode='rgb_array')
 

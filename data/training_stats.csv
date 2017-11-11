@@ -1,0 +1,4 @@
+state_size,epsilon_decay,id,file,gamma,learning_rate,epsilon,max,epsilon_min,mean,action_size,std,min
+4,0.995,1,./saves/DQNAgent_model-1.h5,0.9,0.001,0.6088145090359074,66.0,0.01,10.81,2,13.5688577264,-1.0
+4,0.995,3,./saves/DQNAgent_model-3.h5,0.99,0.001,0.6088145090359074,145.0,0.01,12.16,2,19.4451639232,-1.0
+4,0.995,2,./saves/DQNAgent_model-2.h5,0.95,0.001,0.6088145090359074,134.0,0.01,14.07,2,20.992501042,-2.0
