@@ -1,4 +1,5 @@
 import numpy as np
+import time
 import csv
 from lib.DQNAgent import DQNAgent
 from lib.AgentTrainer import AgentTrainer
@@ -22,9 +23,9 @@ def build_policy(params):
 
 if __name__ == '__main__':
     print("\nSeting up model trainer...")
-    trainer = AgentTrainer(DQNAgent, episodes=100)
+    trainer = AgentTrainer(DQNAgent, episodes=1000)
     print("Training multiple variations of the model...")
-    trainer.train(gamma=[0.9, 0.95, 0.99])
+    trainer.train(gamma=[0.9, 0.95, 0.99], epsilon=[0.95,1.0,1.05], epsilon_decay=[0.95,0.995,0.9995])
     print("Training is complete.")
 
 
@@ -46,7 +47,7 @@ if __name__ == '__main__':
     print("Finished.")
 
     print("\nSetting up policy analyzer...")
-    analyzer = PolicyAnalyzer(episodes=100, steps=1000, render=False)
+    analyzer = PolicyAnalyzer(episodes=100, steps=1000, graph=False)
 
     for agent_params in trainer.agents:
         # Simply add your policy and give it a name
@@ -71,4 +72,5 @@ if __name__ == '__main__':
         dict_writer.writerows(trainer.agents)
     print("Finished.")
 
+    time.sleep(1)
     print("\nModel tuning has completed.")

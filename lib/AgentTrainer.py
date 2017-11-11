@@ -1,4 +1,4 @@
-from multiprocessing import Process, Queue, Manager, Value
+from multiprocessing import Process, Queue, Manager, Value, Pool
 from itertools import product
 from lib.stats import calculate_stats
 import time
@@ -32,39 +32,35 @@ class AgentTrainer:
 
         perm = [dict(zip(agent_dict, v)) for v in product(*agent_dict.values())]
 
+        print("Model training variations:",len(perm))
+
         subproc = []
 
         queue = Queue()
 
         manager = Manager()
 
-        total_episodes = float(len(perm) * self.episodes)
+        total = float(len(perm) * self.episodes)
         counter = manager.Value('i',0)
 
         n = 0
+        args = []
         for p in perm:
             n += 1
-            sp = Process(target=self.train_agent, args=(queue,counter,n,p))
-            sp.start()
-            subproc.append(sp)
+            args.append(tuple([counter,total,n,p]))
 
-        while True:
-            time.sleep(0.25)
-            print("Status: {0:.2f}%".format((100*counter.value/total_episodes)))
-            if len(self.agents) >= 3:
-                break
-            else:
-                try:
-                    item = queue.get(block=False)
-                    self.agents.append(item)
-                except Exception as e:
-                     pass
+        p = Pool(4)
+        self.agents = p.map(self.train_agent, args)
 
-    def train_agent(self, q, n, _id, params):
+    def train_agent(self, params):
+        n = params[0]
+        total = params[1]
+        _id = params[2]
+        config = params[3]
         env = gym.make(self.env)
         state_size = env.observation_space.shape[0]
         action_size = env.action_space.n
-        agent = self.AgentClass(state_size, action_size, id=_id, **params)
+        agent = self.AgentClass(state_size, action_size, id=_id, **config)
 
         scores = []
         done = False
@@ -88,6 +84,7 @@ class AgentTrainer:
                     break
 
             n.value += 1
+            print("Status: {0:.2f}%".format((100*n.value/total)))
             if len(agent.memory) > self.batch_size:
                 agent.replay(self.batch_size)
             if e % self.save_interval == 0:
@@ -96,7 +93,7 @@ class AgentTrainer:
         stats = calculate_stats(scores)
 
         agent.save()
-        q.put({
+        return {
             'id': agent.id,
             'state_size': agent.state_size,
             'action_size': agent.action_size,
@@ -111,4 +108,4 @@ class AgentTrainer:
             'min': stats[2],
             'max': stats[3],
             'file': agent.file
-        })
+        }

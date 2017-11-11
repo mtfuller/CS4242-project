@@ -106,6 +106,7 @@ class PolicyAnalyzer:
         self.episodes = kwargs["episodes"] if "episodes" in kwargs else 100
         self.steps = kwargs["steps"] if "steps" in kwargs else 1000
         self.render = kwargs["render"] if "render" in kwargs else False
+        self.graph = kwargs["graph"] if "graph" in kwargs else True
         self.policies = {}
 
     def register_policy(self, name, func):
@@ -186,4 +187,5 @@ class PolicyAnalyzer:
         plt.xticks(index + bar_width / 2, ('Mean', 'STD', 'Min', 'Max'))
         plt.legend()
         plt.tight_layout()
-        plt.show()
+        if self.graph:
+            plt.show()
