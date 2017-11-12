@@ -5,8 +5,8 @@ Our team seeks to develop a AI agent that is able to play a simple game. We plan
  - [x] Decide on what game use for project. (CartPole)
  - [X] As a team, create different policies and see how they do.
  - [X] Create and train a learning model to play the game.
- - [ ] Fine tune the model and optimize performance.
- - [ ] Compare our initial policies with the learned model.
+ - [X] Fine tune the model and optimize performance.
+ - [X] Compare our initial policies with the learned model.
  - [ ] Discuss what we have learned.
  - [ ] Create PowerPoint and practice presentation.
  - [ ] Give presentation and submit project.
