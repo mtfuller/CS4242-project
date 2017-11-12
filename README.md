@@ -57,3 +57,19 @@ If you want to try your hand at creating a new policy for the CartPole, please t
 ![alt text](https://github.com/mtfuller/CS4242-project/raw/master/img/my_new_policy_graph.png "my_new_policy.py Graph")
 
 You can see how much better the basic policy is than the bad policy. For more information, please see the well commented code in `my_new_policy.py`.
+
+## Model Selection
+As we were trying to come up with a agent policy, we soon saw the complexity of determining what action the agent should take, given four environment parameters. We stumbled across an example of developing a Q-Learning model to train an agent to play the CartPole game: <https://keon.io/deep-q-learning/>.
+
+We began to train our model using the example and got adequate results. However, we found that the agent play the game very inconsistently, even when trained for thousands of runs.
+
+## Optimizing the Model
+The next step in the project was to fine tune the model, find the optimal values for gamma, learning rate, and other parameters. We created a script called `fine_tune_model.py` that would train multiple models, each with different values for each hyperparameter. After running the script, a few `.CSV` files would be generated. We evaluated the data and we found something significant when looking at the effect of changing the `gamma` value:
+
+![alt text](https://github.com/mtfuller/CS4242-project/raw/master/img/optimized_DQL.png "Optimized DQL Graph")
+
+We see that the gamma values and score means are a bit inversely proportional to each other. Meaning, the lower the gamma, the higher the average score is. Looking back over the performance data, one agent was able to play near perfect games, using a gamma of 0.9. Finally, we ran a performance test on four models we trained thus far:
+
+![alt text](https://github.com/mtfuller/CS4242-project/raw/master/img/optimized_policies.png "Final Performance Test Graph")
+
+We see that the optimized model is clearly able to play the game much more consistently (considering the standard deviation of 0) than earlier models.

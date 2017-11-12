@@ -86,13 +86,12 @@ if __name__ == '__main__':
     # If we want to see the policy's performance, we can use a PolicyAnalyzer
     # object that will run a certain number of CartPole games for a certain
     # number of steps each.
-    analyzer = PolicyAnalyzer(episodes=10, steps=1000, render=True)
+    analyzer = PolicyAnalyzer(episodes=100, steps=1000)
 
     # Simply add your policy and give it a name
     analyzer.register_policy("My Basic Policy", basic_policy)
     analyzer.register_policy("My Bad Policy", bad_policy)
     analyzer.register_policy("DQL Policy", dql_policy)
-    # analyzer.register_policy("New DQL Policy", dql2_policy)
     analyzer.register_policy("Optimal DQL Policy", dql_optimal_policy)
 
     # Run the policy analyzer and get stats on how your policy did.
