@@ -17,14 +17,23 @@ model.compile(loss='mse',
               optimizer=Adam(lr=0.001))
 model.load_weights('./saves/cartpole-dqn.h5')
 
-model2 = Sequential()
-model2.add(Dense(24, input_dim=4, activation='relu'))
-model2.add(Dense(24, activation='relu'))
-model2.add(Dense(24, activation='relu'))
-model2.add(Dense(2, activation='linear'))
-model2.compile(loss='mse',
+# model2 = Sequential()
+# model2.add(Dense(24, input_dim=4, activation='relu'))
+# model2.add(Dense(24, activation='relu'))
+# model2.add(Dense(24, activation='relu'))
+# model2.add(Dense(2, activation='linear'))
+# model2.compile(loss='mse',
+#               optimizer=Adam(lr=0.001))
+# model2.load_weights('./saves/cartpole-dqn-batch-percent.h5')
+
+
+model3 = Sequential()
+model3.add(Dense(24, input_dim=4, activation='relu'))
+model3.add(Dense(24, activation='relu'))
+model3.add(Dense(2, activation='linear'))
+model3.compile(loss='mse',
               optimizer=Adam(lr=0.001))
-model2.load_weights('./saves/cartpole-dqn-batch-percent.h5')
+model3.load_weights('./saves/DQNAgent_model_Optimal.h5')
 
 # To create a new policy for the agent, you must implement a function that can
 # use several observations about the environment and return an action.
@@ -63,22 +72,28 @@ def dql_policy(pos, vel, angle, angular_vel):
     action_vals = model.predict(state)
     return np.argmax(action_vals[0])
 
-def dql2_policy(pos, vel, angle, angular_vel):
+# def dql2_policy(pos, vel, angle, angular_vel):
+#     state = np.reshape([pos, vel, angle, angular_vel], [1, 4])
+#     action_vals = model2.predict(state)
+#     return np.argmax(action_vals[0])
+
+def dql_optimal_policy(pos, vel, angle, angular_vel):
     state = np.reshape([pos, vel, angle, angular_vel], [1, 4])
-    action_vals = model2.predict(state)
+    action_vals = model3.predict(state)
     return np.argmax(action_vals[0])
 
 if __name__ == '__main__':
     # If we want to see the policy's performance, we can use a PolicyAnalyzer
     # object that will run a certain number of CartPole games for a certain
     # number of steps each.
-    analyzer = PolicyAnalyzer(episodes=100, steps=1000, render=False)
+    analyzer = PolicyAnalyzer(episodes=10, steps=1000, render=True)
 
     # Simply add your policy and give it a name
     analyzer.register_policy("My Basic Policy", basic_policy)
     analyzer.register_policy("My Bad Policy", bad_policy)
     analyzer.register_policy("DQL Policy", dql_policy)
-    analyzer.register_policy("New DQL Policy", dql2_policy)
+    # analyzer.register_policy("New DQL Policy", dql2_policy)
+    analyzer.register_policy("Optimal DQL Policy", dql_optimal_policy)
 
     # Run the policy analyzer and get stats on how your policy did.
     analyzer.run()
