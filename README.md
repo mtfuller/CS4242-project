@@ -68,8 +68,8 @@ The next step in the project was to fine tune the model, find the optimal values
 
 ![alt text](https://github.com/mtfuller/CS4242-project/raw/master/img/optimized_DQL.png "Optimized DQL Graph")
 
-We see that the gamma values and score means are a bit inversely proportional to each other. Meaning, the lower the gamma, the higher the average score is. Looking back over the performance data, one agent was able to play near perfect games, using a gamma of 0.9. Finally, we ran a performance test on four models we trained thus far:
+We see that the `gamma` values and score means are a bit inversely proportional to each other. Meaning, the lower the `gamma`, the higher the average score is. Looking back over the performance data, one agent was able to play near perfect games, using a `gamma` of 0.9. Finally, we ran a performance test on four models we trained thus far:
 
-![alt text](https://github.com/mtfuller/CS4242-project/raw/master/img/optimized_policies.png "Final Performance Test Graph")
+![alt text](https://github.com/mtfuller/CS4242-project/raw/master/img/optimal_policies.png "Final Performance Test Graph")
 
 We see that the optimized model is clearly able to play the game much more consistently (considering the standard deviation of 0) than earlier models.
