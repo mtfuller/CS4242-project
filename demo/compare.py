@@ -15,16 +15,7 @@ model.add(Dense(24, activation='relu'))
 model.add(Dense(2, activation='linear'))
 model.compile(loss='mse',
               optimizer=Adam(lr=0.001))
-model.load_weights('./saves/cartpole-dqn.h5')
-
-# model2 = Sequential()
-# model2.add(Dense(24, input_dim=4, activation='relu'))
-# model2.add(Dense(24, activation='relu'))
-# model2.add(Dense(24, activation='relu'))
-# model2.add(Dense(2, activation='linear'))
-# model2.compile(loss='mse',
-#               optimizer=Adam(lr=0.001))
-# model2.load_weights('./saves/cartpole-dqn-batch-percent.h5')
+model.load_weights('./models/InitialModel.h5')
 
 
 model3 = Sequential()
@@ -33,7 +24,7 @@ model3.add(Dense(24, activation='relu'))
 model3.add(Dense(2, activation='linear'))
 model3.compile(loss='mse',
               optimizer=Adam(lr=0.001))
-model3.load_weights('./saves/DQNAgent_model_Optimal.h5')
+model3.load_weights('./models/FinalModel.h5')
 
 # To create a new policy for the agent, you must implement a function that can
 # use several observations about the environment and return an action.
@@ -71,11 +62,6 @@ def dql_policy(pos, vel, angle, angular_vel):
     state = np.reshape([pos, vel, angle, angular_vel], [1, 4])
     action_vals = model.predict(state)
     return np.argmax(action_vals[0])
-
-# def dql2_policy(pos, vel, angle, angular_vel):
-#     state = np.reshape([pos, vel, angle, angular_vel], [1, 4])
-#     action_vals = model2.predict(state)
-#     return np.argmax(action_vals[0])
 
 def dql_optimal_policy(pos, vel, angle, angular_vel):
     state = np.reshape([pos, vel, angle, angular_vel], [1, 4])
